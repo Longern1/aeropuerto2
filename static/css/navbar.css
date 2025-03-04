@@ -1,0 +1,162 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 20px;
+    background: #e0f4fe;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;  
+    position: relative;
+}
+
+/* Estilo para la clase .logo */
+.logo {
+    width: 20%; /* Asegura que la imagen ocupe todo el ancho del contenedor */
+
+}
+
+/* Estilo para la etiqueta img dentro de .logo */
+.logo img {
+    max-width: 250px; /* Define el tamaño máximo de la imagen */
+    height: auto; /* Mantiene la proporción de la imagen */
+    display: inline-block; /* Hace que la imagen sea un bloque en línea */
+    margin-top: 10px; /* Agrega espacio encima de la imagen si es necesario */
+}
+
+
+.nav-links {
+    list-style: none;
+    display: flex; 
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman'; 
+}
+
+
+.nav-links li {
+    position: relative;
+    font-family: 'Times New Roman'; 
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: black; /* Mantiene el color blanco para los enlaces */
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    pointer-events: pointer;
+}
+
+.nav-links a:hover {
+    background-color: #66bfff; /* Cambié el color de hover a gris oscuro */
+    color: black;
+}
+
+
+.hamburger {
+    display: none;  
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+}
+
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: #66bfff;
+    border-radius: 2px;
+}
+
+
+.nav-links {
+    display: flex;  
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #e0f4fe; /* Cambié el fondo de las nav-links a gris oscuro */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+}
+
+
+/* Para pantallas de hasta 1290px */
+@media screen and (max-width: 1290px) {
+
+    .nav-links {
+        display: none;  
+        flex-direction: column;
+        background-color: #e0f4fe;
+        padding: 10px;
+        border-radius: 8px;
+        z-index: 1000;
+        margin-top: 3%;
+    }
+
+    .logo {
+        display: flex;
+        justify-content: center;  /* Centra el logo horizontalmente */
+        align-items: center;      /* Centra el logo verticalmente si hay espacio */
+        width: 100%;
+    }
+
+    .logo img {
+        max-width: 250px;
+        height: auto;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links.active {
+        display: flex; 
+    }
+}
+
+/* Para pantallas de hasta 414px */
+@media screen and (max-width: 414px) {
+    .navbar .logo span {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+
+    .nav-links {
+        display: none;  
+        flex-direction: column;
+        background-color: #e0f4fe;
+        padding: 10px;
+        border-radius: 8px;
+        z-index: 1000;
+        margin-top: 5%;
+    }
+}
+
+
+
+
+/* Para pantallas a partir de 1290px */
+@media screen and (min-width: 1291px) {
+
+    .nav-links {
+        display: flex;  
+        flex-direction: row; 
+        justify-content: flex-end; 
+        position: static; 
+        box-shadow: none; 
+        padding: 0;
+        background-color: transparent; 
+    }
+
+    .hamburger {
+        display: none;
+    }
+
+
+}

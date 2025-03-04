@@ -1,0 +1,278 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif; 
+}
+
+
+body {
+    background-color: #e0f4fe;
+    color: #081F5C; 
+    line-height: 1.6;
+}
+
+h3 {
+    text-align: center;
+    color: black;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    margin-top: 2%;
+}
+
+h4 {
+    color: black;
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Formulario */
+form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+select, input, button {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+select {
+    cursor: pointer;
+}
+
+input[type="number"], input[type="month"] {
+    width: 180px;
+}
+
+button {
+    background-color: #66bfff;
+    color: black;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Bloque de Ganancias Totales */
+.ganancias-totales {
+    background-color: #66bfff;
+    color: black;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: center;
+}
+
+.ganancias-cantidad {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.ganancia {
+    color: black;
+    font-size: 36px;
+}
+
+.ganancias-totales p {
+    font-size: 18px;
+    color: black;
+}
+
+/* Contenedor de las tablas */
+.table-container {
+    margin: 20px auto;
+    max-width: 80%;
+}
+
+/* Estilo de las tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    font-size: 16px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #66bfff;
+    color: black;
+    font-weight: 600;
+}
+
+td {
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+
+td.total_ganancias {
+    font-weight: bold;
+    color: #28a745;
+}
+
+@media (max-width: 768px) {
+    /* Ajustes para pantallas más pequeñas como tablets */
+    h3 {
+        font-size: 20px;
+    }
+
+    h4 {
+        font-size: 20px;
+    }
+
+    .ganancias-totales {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .ganancias-cantidad {
+        font-size: 24px;
+    }
+
+    form {
+        flex-direction: column;  /* Hace que los campos del formulario se apilen */
+        gap: 15px;
+    }
+
+    select, input, button {
+        width: 100%;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ajustes para pantallas muy pequeñas como móviles */
+    h3 {
+        font-size: 18px;
+    }
+
+    h4 {
+        font-size: 18px;
+    }
+
+    .ganancias-totales {
+        max-width: 100%;
+        padding: 12px;
+    }
+
+    .ganancias-cantidad {
+        font-size: 22px;
+    }
+
+    form {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    form {
+        flex-direction: column;  /* Hace que los campos del formulario se apilen */
+        gap: 15px;
+        align-items: center; /* Centra los elementos */
+    }
+
+    select, input, button {
+        width: 100%;  /* Los campos ocuparán todo el ancho disponible */
+        max-width: 300px; /* El máximo ancho de los campos es 300px */
+    }
+}
+
+@media (max-width: 480px) {
+    form {
+        gap: 10px;  /* Espacio reducido entre los campos */
+        align-items: center;  /* Centra los elementos */
+    }
+
+    select, input, button {
+        width: 100%;  /* Los campos ocuparán todo el ancho disponible */
+        max-width: 280px; /* Aseguramos que el tamaño máximo sea adecuado para pantallas pequeñas */
+    }
+
+    button {
+        font-size: 14px;  /* Tamaño de fuente más pequeño en móviles */
+    }
+}
+
+
+@media (max-width: 768px) {
+    .ganancias-totales {
+        max-width: 90%;  /* La sección ocupará el 90% del ancho en pantallas más pequeñas */
+        padding: 15px;  /* Menos espacio en los bordes en pantallas pequeñas */
+    }
+
+    .ganancias-cantidad {
+        font-size: 24px;  /* Reduce el tamaño de la cantidad en pantallas más pequeñas */
+    }
+
+    .ganancia {
+        font-size: 28px;  /* Tamaño de fuente más pequeño para la ganancia */
+    }
+
+    .ganancias-totales p {
+        font-size: 16px;  /* Tamaño de fuente más pequeño para el texto */
+    }
+}
+
+@media (max-width: 480px) {
+    .ganancias-totales {
+        max-width: 95%;  /* Se ajusta más en pantallas muy pequeñas */
+        padding: 10px;
+    }
+
+    .ganancias-cantidad {
+        font-size: 20px;  /* Ajuste más pequeño del texto */
+    }
+
+    .ganancia {
+        font-size: 24px;  /* Ajuste más pequeño del texto */
+    }
+
+    .ganancias-totales p {
+        font-size: 14px;  /* Asegura que el texto en pantallas móviles sea legible */
+    }
+}

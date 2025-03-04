@@ -1,0 +1,381 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif; 
+}
+
+
+body {
+    background-color: #e0f4fe; 
+    color: #081F5C; 
+    line-height: 1.6;
+}
+
+
+.main-header {
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 800px;
+    color: black;
+}
+
+.main-header h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.main-header p {
+    font-size: 1.2rem;
+    color: black; 
+}
+
+
+#userList {
+    background-color: #e0f4fe; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+
+#userList h2 {
+    color: #343a40; 
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#userList table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff; 
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+
+#userList th,
+#userList td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #dee2e6; 
+}
+
+#userList th {
+    background-color: #66bfff; 
+    color: black;
+
+}
+
+#userList td {
+    color: #495057; 
+}
+
+
+#userList button {
+    padding: 8px 12px;
+    border: none;
+    background-color: #66bfff; 
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#userList button:hover {
+    background-color: #0056b3; 
+}
+
+
+@media screen and (max-width: 700px) {
+
+    #userList table {
+        display: block;
+        font-size: 14px; 
+        overflow-x: auto; 
+    }
+
+
+    #userList thead {
+        display: none;
+    }
+
+    #userList tr {
+        margin-bottom: 20px; 
+        border-bottom: 4px solid #dee2e6; 
+
+    }
+
+    #userList td {
+        display: block;
+        text-align: center;
+        padding-left: 50%; 
+        position: relative;
+        border: 0px solid #dee2e6;
+        margin-bottom: 10px; 
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 50px;
+        margin-left: 50px;
+
+    }
+
+    #userList td::before {
+        content: attr(data-label); 
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        font-weight: bold;
+        color: #007bff;
+        text-transform: uppercase;
+        
+    }
+
+
+    #userList button {
+        width: 100%; 
+        margin-top: 10px;
+
+    }
+
+
+    #userList td, #userList button {
+        width: 100%;
+        display: flex;
+
+
+    }
+    
+
+    #userList form {
+        margin-left: 50%;
+        width: 100%;
+
+    }
+
+    #userList button {
+        width: 100%; 
+        margin-top: 10px;
+        margin-left: -40%;
+
+
+    }
+
+
+    #userList td:last-child {
+        padding-bottom: 20px;
+    }
+
+
+    #userList button + button {
+        margin-top: 10px;
+    }
+}
+
+
+@media screen and (min-width: 701px) {
+
+    #userList table {
+        display: table;
+    }
+
+    #userList td, #userList th {
+        display: table-cell;
+    }
+
+    #userList td::before {
+        content: none; 
+    }
+
+    #userList button {
+        width: auto; 
+    }
+}
+
+
+
+
+
+#editUserForm {
+    background-color: #e0f4fe; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+#editUserForm h3 {
+    text-align: center;
+    color: #343a40; 
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+
+#editUserForm label {
+    font-size: 16px;
+    color: #495057;
+    margin-bottom: 5px;
+    display: block;
+}
+
+
+#editUserForm input, #editUserForm select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da; 
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+#editUserForm button[type="submit"] {
+    background-color: #4fb1fc; 
+    color: black;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+#editUserForm button[type="submit"]:hover {
+    background-color: #0056b3; 
+}
+
+
+#editUserForm button[type="button"] {
+    background-color: #dc3545; 
+    color: black;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#editUserForm button[type="button"]:hover {
+    background-color: #c82333; 
+}
+
+
+#editUserForm input, #editUserForm select, #editUserForm button {
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+
+@media screen and (max-width: 768px) {
+    #editUserForm {
+        padding: 15px;
+        width: 90%; 
+    }
+
+    #editUserForm h3 {
+        font-size: 20px;
+    }
+
+    #editUserForm input, #editUserForm select, #editUserForm button {
+        font-size: 14px;
+    }
+}
+#confirmModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 80%;
+}
+.modal-content button {
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+
+@media (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+        padding: 15px;
+    }
+    .modal-content button {
+        font-size: 14px;
+    }
+}
+
+
+
+.calendar-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin: 0 auto;
+}
+.calendar-container h3 {
+    text-align: center;
+    color: #333;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #e9ecef;
+    color: #495057;
+    pointer-events: none;
+}
+
+
+
+
+
+
+
+@media (max-width: 480px) {
+    .modal-buttons {
+        flex-direction: column; /* Pone los botones en columna */
+    }
+
+    .btn-delete, .btn-cancel {
+        padding: 8px 14px; /* Botones más pequeños */
+        font-size: 14px;
+    }
+}
