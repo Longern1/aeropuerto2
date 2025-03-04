@@ -1,0 +1,140 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver vehiculos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ver.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}">
+
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}" alt="Logo">
+        </div>
+        
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('admin_dashboard') }}" class="users-btn">Usuarios</a></li>
+            <li><a href="{{ url_for('create_user') }}" class="users-btn">Crear Usuarios</a></li>            
+            <li><a href="{{ url_for('create_vehicle') }}" class="vehicles-btn">Crear Vehículos</a></li>
+            <li><a href="{{ url_for('ver_vehiculos') }}" class="assignments-btn">Ver todos los vehículos</a></li>
+            <li><a href="{{ url_for('peritajes') }}" class="users-btn">Peritaje</a></li>
+            <li><a href="{{ url_for('reporte_transportadores') }}" class="reports-btn">Reportes de los transportadores</a></li>
+            <li><a href="{{ url_for('Ganancias') }}" class="reports-btn">Ganancias</a></li>
+            <li><a href="{{ url_for('logout') }}" class="logout-btn">Salir de la cuenta</a></li>
+        </ul>
+    </nav>
+
+
+    <h2 style="text-align:center; margin-top: 1%; color: black; ">Todos los Vehículos</h2>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Busqueda por matricula" onkeyup="filterVehicles()">
+    </div>
+
+
+    <div class="vehicle-container" id="vehicleContainer">
+        {% for vehicle in vehicles %}
+        <div class="vehicle-card {{ vehicle.estado|replace(' ', '-')|lower }}">
+            <div class="card-header">
+                <div class="card-image">
+                    {% if vehicle.estado | lower | trim == 'recogida' %}
+                        <img src="{{ url_for('static', filename='IMG/rojo.png') }}" alt="Vehículo en recogida">
+                    {% elif vehicle.estado | lower | trim == 'entrega' %}
+                        <img src="{{ url_for('static', filename='IMG/entrega.png') }}" alt="Vehículo en entrega">
+                        {% elif vehicle.estado | lower | trim == 'en entrega' %}
+                        <img src="{{ url_for('static', filename='IMG/morado.png') }}" alt="Vehículo en entrega">
+                        {% elif vehicle.estado | lower | trim == 'en recogida' %}
+                        <img src="{{ url_for('static', filename='IMG/amarillo.png') }}" alt="Vehículo en entrega">
+                        {% elif vehicle.estado | lower | trim == 'entregado' %}
+                        <img src="{{ url_for('static', filename='IMG/verde.png') }}" alt="Vehículo en entrega">
+                        {% elif vehicle.estado | lower | trim == 'recogido' %}
+                        <img src="{{ url_for('static', filename='IMG/recogida.png') }}" alt="Vehículo en entrega">
+                    {% else %}
+                        <img src="imagen-default.png" alt="Vehículo">
+                    {% endif %}
+                </div>
+                <h1 class="estado">{{ vehicle.estado }}</h1>
+            </div>
+
+            <div class="vehicle-info">
+                <div class="column">
+                    <p class="data-placa"><strong>{{ vehicle.placa }}</strong> </p>
+                    <p class="data-reserva"><strong>{{ vehicle.numero_reserva }}</strong></p>
+                    <p class="nombre"><strong>{{ vehicle.cliente_nombre }}</strong></p>
+                    <p><strong>{{ vehicle.cliente_telefono }}</strong></p>
+                </div>
+                <div class="column">
+                    <p><strong>{{ vehicle.ubicacion }}</strong></p>
+                    <p><strong>€{{ vehicle.precio }}</strong></p>
+                    <p><strong>{{ vehicle.numero_vuelo }}</strong></p>
+                    {% if vehicle.estado | lower | trim == 'recogida' %}
+                    <p><strong>{{ vehicle.fecha_recogida }} - {{ vehicle.hora_recogida }}</strong></p>
+                    {% elif vehicle.estado | lower | trim == 'entrega' %}
+                    <p><strong>{{ vehicle.fecha_entrega }} - {{ vehicle.hora_entrega }}</strong></p>
+                    {% elif vehicle.estado | lower | trim == 'recogido' %}
+                    <p><strong>{{ vehicle.fecha_entrega }} - {{ vehicle.hora_entrega }}</strong></p>
+                    {% elif vehicle.estado | lower | trim == 'en entrega' %}
+                    <p><strong>{{ vehicle.fecha_entrega }} - {{ vehicle.hora_entrega }}</strong></p>
+                    {% elif vehicle.estado | lower | trim == 'en recogida' %}
+                    <p><strong>{{ vehicle.fecha_recogida }} - {{ vehicle.hora_recogida }}</strong></p>
+                    {% elif vehicle.estado | lower | trim == 'entregado' %}
+                    <p><strong>{{ vehicle.fecha_entrega }} - {{ vehicle.hora_entrega }}</strong></p>
+                    {% else %}
+                    <img src="imagen-default.png" alt="Vehículo">
+                    {% endif %}
+                </div>
+            </div>
+    
+            <div class="buttons">
+                <button class="view-details-btn" onclick="openModal({{ vehicle.id }})">Detalles</button>
+                <a href="{{ url_for('editar_vehiculo', vehicle_id=vehicle.id) }}" class="edit-btn">Editar</a>
+            </div>
+
+        </div>
+    
+
+        <div class="vehicle-modal" id="vehicleModal-{{ vehicle.id }}">
+            <div class="vehicle-details">
+                <button class="close-btn" onclick="closeModal({{ vehicle.id }})">Cerrar</button>
+                <p><strong>Detalles completos:</strong></p>
+                <ul>
+                    <li><strong>Modelo:</strong> {{ vehicle.modelo }}</li>
+                    <li><strong>Matricula:</strong> {{ vehicle.placa }}</li>
+                    <li><strong>Fecha de recogida:</strong> {{ vehicle.fecha_recogida }}</li>
+                    <li><strong>Hora de recogida:</strong> {{ vehicle.hora_recogida }}</li>
+                    <li><strong>Fecha de entrega:</strong> {{ vehicle.fecha_entrega }}</li>
+                    <li><strong>Hora de entrega:</strong> {{ vehicle.hora_entrega }}</li>
+                    <li><strong>Nombre del cliente:</strong> {{ vehicle.cliente_nombre }}</li>
+                    <li><strong>Telefono del cliente:</strong> {{ vehicle.cliente_telefono }}</li>
+                    <li><strong>Correo del cliente:</strong> {{ vehicle.cliente_correo }}</li>
+                    <li><strong>Recogido por:</strong> {{ vehicle.usuario_recogida_nombre }}</li>
+                    <li><strong>Entregado por:</strong> {{ vehicle.usuario_entrega_nombre }}</li>
+                    <li><strong>Comentarios del transportador:</strong> {{ vehicle.comentarios }}</li>
+                    <li><strong>Numero de reserva:</strong> {{ vehicle.numero_reserva }}</li>
+                    <li><strong>Numero de vuelo:</strong> {{ vehicle.numero_vuelo }}</li>
+                    <li><strong>Descripcion:</strong> {{ vehicle.descripcion }}</li>
+                    <li><strong>Ubicación:</strong> {{ vehicle.ubicacion }}</li>
+                    <li><strong>Estado:</strong> {{ vehicle.estado }}</li>
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    
+
+
+</body>
+<script src="{{ url_for('static', filename='Js/navbar.js') }}"></script>
+<script src="{{ url_for('static', filename='Js/ver.js') }}"></script>
+</html>

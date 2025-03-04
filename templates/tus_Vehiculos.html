@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tus Vehículos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/transport.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}" alt="Logo">
+        </div>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('transport_dashboard') }}" class="users-btn">Zona de trabajo</a></li>
+            <li><a href="{{ url_for('tus_vehiculos') }}" class="users-btn">Tus vehículos</a></li>  
+            <li><a href="{{ url_for('logout') }}" class="logout-btn">Salir de la cuenta</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Tus vehículos en proceso</h1>
+        <h4>Estos son los vehículos que tienes en proceso.</h4>
+    </header>
+
+
+    <div class="vehiculos-container">
+        {% if vehicles %}
+            {% for vehicle in vehicles %}
+                <div data-estado="{{ vehicle[4] }}" class="card vehiculo-card {{ vehicle[4] | replace(' ', '-') | lower }}">
+                    
+                    <!-- Parte superior con imagen y título -->
+                    <div class="card-header">
+                        <div class="card-image">
+                            {% if vehicle[4] | lower | trim == 'en recogida' %}
+                                <img src="{{ url_for('static', filename='IMG/amarillo.png') }}" alt="Vehículo en recogida">
+                            {% elif vehicle[4] | lower | trim == 'en entrega' %}
+                                <img src="{{ url_for('static', filename='IMG/morado.png') }}" alt="Vehículo en entrega">
+                            {% else %}
+                                <img src="imagen-default.png" alt="Vehículo">
+                            {% endif %}
+                        </div>
+                        <h1 class="estado">{{ vehicle[4] }}</h1>
+                    </div>
+                    
+                    <!-- Línea separadora -->
+                    <div class="separator"></div>
+        
+                    <!-- Sección de detalles principales -->
+                    <div class="card-content">
+                        <div class="column">
+                            <p><strong>{{ vehicle[1] }}</strong></p>
+                            <p><strong>{{ vehicle[2] }}</strong></p>
+                            {% if vehicle[4] | lower | trim == 'en recogida' %}
+                            <p><strong> {{ vehicle[11] }}</strong></p>
+                            <p><strong>{{ vehicle[8] }}</strong> </p>
+                            {% elif vehicle[4] | lower | trim == 'en entrega' %}
+                            <p><strong>{{ vehicle[11] }}</strong></p>
+                            <p><strong>{{ vehicle[8] }}</strong> </p>
+                            {% else %}
+                            <p><strong>Estado no especificado.</strong></p>
+                        {% endif %}
+                        </div>
+                        <div class="column">
+                            <p><strong>{{ vehicle[5] }}</strong></p>
+                            <p><strong>{{ vehicle[3] }}</strong></p>
+                            {% if vehicle[4] | lower | trim == 'en recogida' %}
+                            <p><strong>{{ vehicle[9] }} - {{ vehicle[10] }}</strong> </p>
+                            <p><strong> {{ vehicle[7] }}</strong></p>
+                            
+                            {% elif vehicle[4] | lower | trim == 'en entrega' %}
+                            <p><strong> {{ vehicle[7] }}</strong></p>
+                            {% else %}
+                            <p><strong>Estado no especificado.</strong></p>
+                        {% endif %}
+                        </div>
+                        
+                    </div>
+                     
+                
+                    
+                    <!-- Línea separadora -->
+                    <div class="separator"></div>
+
+                    {% if vehicle['7'] %}
+                    <button onclick="buscarVuelo('{{ vehicle['numero_vuelo'] }}')">Ver Vuelo</button>
+                    {% else %}
+                        <span class="no-vuelo">No tiene vuelo.</span>
+                    {% endif %}
+                
+
+                    
+                    <!-- Botón de acción -->
+                    <button class="boton4" type="button" class="{% if vehicle[4] | lower | trim == 'en recogida' %}en-recogida{% elif vehicle[4] | lower | trim == 'en entrega' %}en-entrega{% else %}accion-no-disponible{% endif %}" 
+                    onclick="mostrarFormulario('{{ vehicle[8] }}')"> <!-- Aquí usamos vehicle[5] que sería numero_reserva -->
+                    {% if vehicle[4] | lower | trim == 'en recogida' %}
+                        Marcar como Recogido
+                    {% elif vehicle[4] | lower | trim == 'en entrega' %}
+                        Marcar como Entregado
+                    {% else %}
+                        Acción No Disponible
+                    {% endif %}
+                    </button>
+                
+                    
+                    <!-- Formulario de comentarios -->
+                    <div class="comentario-form" data-numero-reserva="{{ vehicle[8] }}">
+                        <form action="{{ url_for('finalizar_proceso', numero_reserva=vehicle[8]) }}" method="post" enctype="multipart/form-data">
+                            <label for="comentario">Comentario:</label>
+                            <textarea id="comentario" name="comentario" rows="4" cols="50" placeholder="Escribe un comentario..."></textarea>
+                            <br>
+                            <label for="fotos">Subir fotos:</label>
+                            <input type="file" id="fotos" name="fotos" multiple accept="image/*">
+                            <br>
+                            <label for="nueva_ubicacion">Nueva ubicación:</label>
+                            <input type="text" id="nueva_ubicacion" name="nueva_ubicacion" placeholder="Ingrese la nueva ubicación" required>
+                            <br>
+                            <button type="submit">Finalizar y Enviar Comentario</button>
+                            <button type="button" onclick="cerrarFormulario('{{ vehicle[8] }}')">Cerrar</button>
+                        </form>
+                    </div>
+                    
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No tienes vehículos en proceso actualmente.</p>
+        {% endif %}
+    </div>
+    
+   
+    
+</body>    
+<script>
+
+function mostrarFormulario(numeroReserva) {
+    var formulario = document.querySelector('.comentario-form[data-numero-reserva="' + numeroReserva + '"]');
+    if (formulario) {
+        formulario.style.display = 'block';
+    }
+}
+
+function cerrarFormulario(numeroReserva) {
+    var formulario = document.querySelector('.comentario-form[data-numero-reserva="' + numeroReserva + '"]');
+    if (formulario) {
+        formulario.style.display = 'none';
+    }
+}
+
+
+
+function buscarVuelo(numeroVuelo) {
+            let url = `https://www.google.com/search?q=${encodeURIComponent(numeroVuelo + " estado de vuelo")}`;
+            window.open(url, "_blank"); // Abrir en nueva pestaña
+        }
+
+</script>
+<script src="{{ url_for('static', filename='Js/navbar.js') }}"></script>
+</html>

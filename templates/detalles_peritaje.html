@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Peritaje - {{ vehiculo[1] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/peritaje.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detalles-peritaje.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}" alt="Logo">
+        </div>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('admin_dashboard') }}" class="users-btn">Usuarios</a></li>
+            <li><a href="{{ url_for('create_user') }}" class="users-btn">Crear Usuarios</a></li>            
+            <li><a href="{{ url_for('create_vehicle') }}" class="vehicles-btn">Crear Vehículos</a></li>
+            <li><a href="{{ url_for('ver_vehiculos') }}" class="assignments-btn">Ver todos los vehículos</a></li>
+            <li><a href="{{ url_for('peritajes') }}" class="users-btn">Peritaje</a></li>
+            <li><a href="{{ url_for('reporte_transportadores') }}" class="reports-btn">Reportes de los transportadores</a></li>
+            <li><a href="{{ url_for('Ganancias') }}" class="reports-btn">Ganancias</a></li>
+            <li><a href="{{ url_for('logout') }}" class="logout-btn">Salir de la cuenta</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Detalles del Peritaje del Vehículo: Matricula: {{ detalles[12] }}</h1>
+
+    </header>
+    
+
+    <section class="detalle-peritaje" id="content">
+        <h2>Detalles del Vehículo</h2>
+        <p><strong>Modelo:</strong> {{ detalles[1] }}</p>
+        <p><strong>Matricula:</strong> {{ detalles[2] }}</p>
+        <p><strong>Cliente:</strong> {{ detalles[7] }} (Teléfono: {{ detalles[8] }}, Correo: {{ detalles[9] }})</p>
+        <p><strong>Ubicación:</strong> {{ detalles[13] }}</p>
+        <p><strong>Estado:</strong> {{ detalles[14] }}</p>
+
+        <div class="fotos-container">
+            <h4>Fotos del Peritaje:</h4>
+            <div class="photo-gallery">
+                {% if fotos %}
+                    {% for foto in fotos %}
+                        <img src="{{ url_for('uploaded_file', filename=foto) }}" alt="Foto de peritaje" class="photo-large">
+                    {% endfor %}
+                {% else %}
+                    <p>No hay fotos disponibles para este peritaje.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+
+        </section>
+        
+
+<div class="button-container">
+    <a href="{{ url_for('peritajes') }}" class="back-btn">Volver a la lista de peritajes</a>
+    <button id="download-pdf" class="btn">Descargar como PDF</button>
+</div>
+
+        
+        
+        <script src="{{ url_for('static', filename='Js/navbar.js') }}"></script>
+        
+
+    <script>
+        document.getElementById('download-pdf').addEventListener('click', function () {
+            const content = document.getElementById('content'); 
+
+
+            const options = {
+                margin:       10,
+                filename:     'detalles_peritaje.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },  
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+
+            html2pdf().from(content).set(options).save();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}">
+
+</head>
+<body>
+    <div class="login-container">
+        <form action="/login" method="POST" class="login-form">
+
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}" alt="Logo" class="logo">
+            </div>
+            
+            <h2>Login</h2>
+            
+            <div class="input-container">
+                <input type="email" name="email" id="email" required>
+                <label for="email">Email</label>
+            </div>
+    
+            <div class="input-container">
+                <input type="password" name="password" id="password" required>
+                <label for="password">Password</label>
+            </div>
+    
+            <button type="submit">Login</button>
+        </form>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="error-container">
+                    {% for category, message in messages %}
+                        <p class="{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+    </div>
+    
+</body>
+</html>

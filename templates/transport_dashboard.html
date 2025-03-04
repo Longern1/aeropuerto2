@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Transport.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}" alt="Logo">
+        </div>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('transport_dashboard') }}" class="users-btn">Zona de trabajo</a></li>
+            <li><a href="{{ url_for('tus_vehiculos') }}" class="users-btn">Tus vehículos</a></li>
+            <li><a href="{{ url_for('logout') }}" class="logout-btn">Salir de la cuenta</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Vehículos Disponibles</h1>
+        <h2>Selecciona un vehículo para transportarlo:</h2>
+
+    </header>
+
+    
+
+
+    
+    <div class="vehiculos-container">
+        {% for vehicle in vehiculos %}
+            <div data-estado="{{ vehicle.estado }}" class="card vehiculo-card {{ vehicle.estado | replace(' ', '-') | lower }}">
+                
+                <!-- Parte superior con imagen y título -->
+                <div class="card-header">
+                    <div class="card-image">
+                        {% if vehicle.estado | lower | trim == 'recogida' %}
+                            <img src="{{ url_for('static', filename='IMG/rojo.png') }}" alt="Vehículo en recogida">
+                        {% elif vehicle.estado | lower | trim == 'entrega' %}
+                            <img src="{{ url_for('static', filename='IMG/entrega.png') }}" alt="Vehículo en entrega">
+                        {% else %}
+                            <img src="imagen-default.png" alt="Vehículo">
+                        {% endif %}
+                    </div>
+                    <h1 class="estado">{{ vehicle.estado }}</h1>
+                </div>
+                
+    
+                <!-- Línea separadora -->
+                <div class="separator"></div>
+    
+                <!-- Sección de detalles principales -->
+                <div class="card-content">
+                    <div class="column">
+                        <p><strong>{{ vehicle.modelo }}</strong></p>
+                        <p><strong>{{ vehicle.placa }}</strong></p>
+                    </div>
+                    <div class="column">
+                        <p><strong>{{ vehicle.cliente_telefono }}</strong></p>
+                        {% if vehicle.estado == 'Recogida' %}
+                        <p><strong> {{ vehicle.ubicacion }}</strong></p>
+                        
+                        {% elif vehicle.estado == 'Entrega' %}
+                        <p><strong> {{ vehicle.ubicacion }}</strong></p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Línea separadora -->
+                <div class="separator"></div>
+    
+                <!-- Sección de información dividida en dos columnas -->
+                <div class="card-info">
+                    <div class="left-section">                        
+                        {% if vehicle.estado == 'Recogida' %}
+                            <p><strong>{{ vehicle.hora_recogida }}</strong> </p>
+                            <p><strong>{{ vehicle.numero_reserva }}</strong></p>
+                        {% elif vehicle.estado == 'Entrega' %}
+                            <p><strong> {{ vehicle.hora_entrega }}</strong></p>
+                            <p><strong> {{ vehicle.numero_reserva }}</strong></p>
+                        {% endif %}
+                        {% if vehicle.estado == 'Recogida' or vehicle.estado == 'Entrega' %}
+
+                        {% else %}
+                            <p><strong>Estado no especificado.</strong></p>
+                        {% endif %}
+
+                            <form method="POST" action="{{ url_for('transport_dashboard') }}" id="vehicleForm{{ vehicle.id }}" onsubmit="return false;">
+                            <input type="hidden" name="vehiculos_id" value="{{ vehicle.id }}">
+                            <button 
+                                type="button" 
+                                class="action-button {{ vehicle.estado | replace(' ', '-') | lower }}" 
+                                onclick="openModal('{{ vehicle.id }}', '{{ vehicle.placa }}')">
+                                {% if vehicle.estado | lower | trim == 'recogida' %}
+                                    Recoger
+                                {% elif vehicle.estado | lower | trim == 'entrega' %}
+                                    Entregar
+                                {% else %}
+                                    Acción No Disponible
+                                {% endif %}
+                                
+                            </button>
+                        </form>
+    
+
+                    </div>
+    
+                    <!-- Línea separadora vertical -->
+                    <div class="vertical-separator {% if vehicle.estado == 'entrega' %}entrega{% endif %}"></div>
+
+    
+                    <div class="right-section">
+                        <div class="detalles">
+                            {% if vehicle.estado == 'Recogida' %}
+                            <p><strong>{{ vehicle.fecha_entrega}} - {{ vehicle.hora_entrega }}</strong> </p>
+                            <p><strong> {{ vehicle.numero_vuelo }}</strong></p>
+                            {% elif vehicle.estado == 'Entrega' %}
+                            <p><strong>{{ vehicle['numero_vuelo'] }}</strong> </p>
+                            {% endif %}
+                        </div>
+                        <div class="detalles2">
+                        {% if vehicle['numero_vuelo'] %}
+                        <button onclick="buscarVuelo('{{ vehicle['numero_vuelo'] }}')">Ver Vuelo</button>
+                        {% else %}
+                            <span class="no-vuelo">No tiene vuelo.</span>
+                        {% endif %}
+                        </div>
+
+                    </div>
+
+                                    <!-- Modal de confirmación -->
+                <div id="confirmationModal{{ vehicle.id }}" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="closeModal('{{ vehicle.id }}')">&times;</span>
+                        <p id="confirmationMessage{{ vehicle.id }}"></p>
+                        <div class="modal-buttons">
+                            <button id="confirmButton{{ vehicle.id }}" onclick="confirmAction('{{ vehicle.id }}')" class="btn-confirm">Confirmar</button>
+                            <button id="cancelButton" onclick="closeModal('{{ vehicle.id }}')" class="btn-cancel">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+    
+
+        {% else %}
+            <p>No hay vehículos disponibles para transporte.</p>
+        {% endfor %}
+    </div>
+    
+    
+
+    
+</body>
+<script src="{{ url_for('static', filename='Js/navbar.js') }}"></script>
+<script src="{{ url_for('static', filename='Js/transport.js') }}"></script>
+</html>

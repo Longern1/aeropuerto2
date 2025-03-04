@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}" alt="Logo">
+        </div>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('admin_dashboard') }}" class="users-btn">Usuarios</a></li>
+            <li><a href="{{ url_for('create_user') }}" class="users-btn">Crear Usuarios</a></li>            
+            <li><a href="{{ url_for('create_vehicle') }}" class="vehicles-btn">Crear Vehículos</a></li>
+            <li><a href="{{ url_for('ver_vehiculos') }}" class="assignments-btn">Ver todos los vehículos</a></li>
+            <li><a href="{{ url_for('peritajes') }}" class="users-btn">Peritaje</a></li>
+            <li><a href="{{ url_for('reporte_transportadores') }}" class="reports-btn">Reportes de los transportadores</a></li>
+            <li><a href="{{ url_for('Ganancias') }}" class="reports-btn">Ganancias</a></li>
+            <li><a href="{{ url_for('logout') }}" class="logout-btn">Salir de la cuenta</a></li>
+        </ul>
+    </nav>
+    
+
+    <header class="main-header">
+        <h1>Administrador</h1>
+        <p></p>
+
+        <div class="calendar-container">
+            <h3>Fecha y Hora Actuales</h3>
+            <form>
+                <div class="form-group">
+                    <label for="date">Fecha:</label>
+                    <input type="text" id="date" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="time">Hora:</label>
+                    <input type="text" id="time" readonly>
+                </div>
+            </form>
+        </div>
+    
+    </header>
+    <div id="userList" style="margin-top: 20px;">
+        <h2>Usuarios Registrados</h2>
+        {% if users %}
+        <table border="1" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td data-label="Nombre">{{ user[1] }}</td>
+                    <td data-label="Correo">{{ user[2] }}</td>
+                    <td data-label="Rol">{{ user[3] }}</td>
+
+                    <td>
+
+                        <button onclick="editUser('{{ user[0] }}', '{{ user[1] }}', '{{ user[2] }}', '{{ user[3] }}', '{{ user[4] }}')">
+                            <i class="fas fa-cog"></i> 
+                        </button>
+                        <form action="/delete_user/{{ user[0] }}" method="POST" style="display:inline;" onsubmit="return openConfirmModal('{{ user[1] }}', this)">
+                            <button>Eliminar</button>
+                        </form>
+                        
+                        <!-- Modal de confirmación -->
+                        <div id="confirmModal">
+                            <div class="modal-content">
+                                <p id="confirmMessage"></p>
+                                <div class="modal-buttons">
+                                    <button class="btn-delete" id="confirmYes">Sí, eliminar</button>
+                                    <button class="btn-cancel" onclick="closeConfirmModal()">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                            
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No hay usuarios registrados.</p>
+        {% endif %}
+    </div>
+    
+
+    
+    
+
+
+    <div id="editUserForm" style="display:none; margin-top: 20px;">
+        <h3>Editar Usuario</h3>
+        <form action="/update_user" method="POST">
+            <input type="hidden" name="user_id" id="editUserId">
+            
+            <label for="editName">Nombre:</label>
+            <input type="text" name="name" id="editName" required><br><br>
+    
+            <label for="editEmail">Correo:</label>
+            <input type="email" name="email" id="editEmail" required><br><br>
+    
+            <label for="editPassword">Contraseña:</label>
+            <input type="password" name="password" id="editPassword" required><br><br>
+    
+            <label for="editRole">Rol:</label>
+            <select name="role" id="editRole" required>
+                <option value="administrativo">Administrativo</option>
+                <option value="transportador">Transportador</option>
+            </select><br><br>
+    
+            <button type="submit">Actualizar Usuario</button>
+            <button type="button" onclick="document.getElementById('editUserForm').style.display='none'">Cerrar</button>
+        </form>
+    </div>
+
+
+
+</body>
+
+<script src="{{ url_for('static', filename='Js/admin.js') }}"></script>
+<script src="{{ url_for('static', filename='Js/navbar.js') }}"></script>
+</html>

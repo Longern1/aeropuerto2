@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar vehiculos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editar.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}">
+
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}" alt="Logo">
+        </div>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('admin_dashboard') }}" class="users-btn">Usuarios</a></li>
+            <li><a href="{{ url_for('create_user') }}" class="users-btn">Crear Usuarios</a></li>            
+            <li><a href="{{ url_for('create_vehicle') }}" class="vehicles-btn">Crear Vehículos</a></li>
+            <li><a href="{{ url_for('ver_vehiculos') }}" class="assignments-btn">Ver todos los vehículos</a></li>
+            <li><a href="{{ url_for('peritajes') }}" class="users-btn">Peritaje</a></li>
+            <li><a href="{{ url_for('reporte_transportadores') }}" class="reports-btn">Reportes de los transportadores</a></li>
+            <li><a href="{{ url_for('Ganancias') }}" class="reports-btn">Ganancias</a></li>
+            <li><a href="{{ url_for('logout') }}" class="logout-btn">Salir de la cuenta</a></li>
+        </ul>
+    </nav>
+
+    <form method="POST" class="vehicle-edit-form">
+
+        <h2>Editar Información del Vehículo</h2>
+
+    
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" name="modelo" value="{{ vehicle.modelo }}" required>
+        
+        <label for="Placa">Matricula:</label>
+        <input type="text" id="placa" name="placa" value="{{ vehicle.placa }}" required>
+    
+        <label for="fecha_recogida">Fecha de recogida:</label>
+        <input type="date" id="fecha_recogida" name="fecha_recogida" value="{{ vehicle.fecha_recogida }}" required>
+        
+    
+        <label for="hora_recogida">Hora de recogida:</label>
+        <input type="time" id="hora_recogida" name="hora_recogida" value="{{ vehicle.hora_recogida }}" required>
+    
+        <label for="fecha_entrega">Fecha de entrega:</label>
+        <input type="date" id="fecha_entrega" name="fecha_entrega" value="{{ vehicle.fecha_entrega }}" required>
+    
+        <label for="hora_entrega">Hora de entrega:</label>
+        <input type="time" id="hora_entrega" name="hora_entrega" value="{{ vehicle.hora_entrega }}" required>      
+    
+        <label for="cliente_nombre">Nombre del cliente:</label>
+        <input type="text" id="cliente_nombre" name="cliente_nombre" value="{{ vehicle.cliente_nombre }}" required>
+    
+        <label for="cliente_telefono">Teléfono del cliente:</label>
+        <input type="text" id="cliente_telefono" name="cliente_telefono" value="{{ vehicle.cliente_telefono }}" required>
+        
+        <label for="numero_reserva">Numero de reserva:</label>
+        <input type="text" id="numero_reserva" name="numero_reserva" value="{{ vehicle.numero_reserva }}" required>
+    
+    
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required>{{ vehicle.descripcion }}</textarea>
+    
+        <label for="ubicacion">Ubicación:</label>
+        <input type="text" id="ubicacion" name="ubicacion" value="{{ vehicle.ubicacion }}" required>
+        
+        <label for="numero_vuelo">Numero del vuelo:</label>
+        <input type="text" id="numero_vuelo" name="numero_vuelo" value="{{ vehicle.numero_vuelo}}" required>
+    
+        <label for="estado">Estado:</label>
+        <select id="estado" name="estado">
+            <option value="Recogida" {% if vehicle.estado == 'Recogida' %}selected{% endif %}>Recogida</option>
+            <option value="Entrega" {% if vehicle.estado == 'Entrega' %}selected{% endif %}>Entrega</option>
+            <option value="Recogido" {% if vehicle.estado == 'Recogido' %}selected{% endif %}>Recogido</option>
+            <option value="Entregado" {% if vehicle.estado == 'Entregado' %}selected{% endif %}>Entregado</option>
+        </select>
+    
+        <button type="submit" class="submit-btn">Actualizar Información</button>
+        <a href="{{ url_for('ver_vehiculos') }}" class="back-btn">Regresar</a>
+        <button type="submit" name="action" value="delete" class="delete-btn">Eliminar Vehículo</button>
+ 
+
+    </form>
+
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Confirmación de Eliminación</h2>
+        <p>¿Estás seguro de que deseas eliminar este vehículo? Esta acción no se puede deshacer.</p>
+        <div class="modal-buttons">
+            <form method="POST">
+                <button type="submit" name="action" value="delete" class="confirm-delete">Sí, eliminar</button>
+                <button type="button" class="cancel-delete">Cancelar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    
+
+    
+</body>
+<script src="{{ url_for('static', filename='Js/editar.js') }}"></script>
+<script src="{{ url_for('static', filename='Js/navbar.js') }}"></script>
+</html>

@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganancias</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ganancias.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}">
+
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}" alt="Logo">
+        </div>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('admin_dashboard') }}" class="users-btn">Usuarios</a></li>
+            <li><a href="{{ url_for('create_user') }}" class="users-btn">Crear Usuarios</a></li>            
+            <li><a href="{{ url_for('create_vehicle') }}" class="vehicles-btn">Crear Vehículos</a></li>
+            <li><a href="{{ url_for('ver_vehiculos') }}" class="assignments-btn">Ver todos los vehículos</a></li>
+            <li><a href="{{ url_for('peritajes') }}" class="users-btn">Peritaje</a></li>
+            <li><a href="{{ url_for('reporte_transportadores') }}" class="reports-btn">Reportes de los transportadores</a></li>
+            <li><a href="{{ url_for('Ganancias') }}" class="reports-btn">Ganancias</a></li>
+            <li><a href="{{ url_for('logout') }}" class="logout-btn">Salir de la cuenta</a></li>
+        </ul>
+    </nav>
+
+
+    <h3>Reporte de Ganancias</h3>
+
+    <!-- Formulario para filtrar por mes o año -->
+    <form method="POST">
+        <select name="filtro" id="filtro" onchange="cambiarFiltro()">
+            <option value="mes" {% if filtro == 'mes' %}selected{% endif %}>Por Mes</option>
+            <option value="anio" {% if filtro == 'anio' %}selected{% endif %}>Por Año</option>
+        </select>
+        <input type="month" name="valor" id="valorMes" value="{{ valor }}" {% if filtro == 'anio' %}style="display:none;"{% endif %}>
+        <input type="number" name="valor" id="valorAnio" min="2000" max="2099" value="{{ valor }}" {% if filtro == 'mes' %}style="display:none;"{% endif %}>
+        <button type="submit">Filtrar</button>
+    </form>
+
+
+    <div class="ganancias-totales">
+        <h4>Ganancias Totales</h4>
+        <div class="ganancias-cantidad">
+            <span class="ganancia">€ {{ "%.2f"|format(ganancias[0].total_ganancias) }}</span>
+            <p>{{ "Para el " + valor }}</p>
+        </div>
+    </div>
+    
+    <h3>Vehículos de {{ valor }}</h3>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Precio (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in vehiculos %}
+                <tr>
+                    <td>{{ v.modelo }}</td>
+                    <td>€ {{ "%.2f"|format(v.precio) }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+</body>
+</html>
+
+  
+</body>
+<script src="{{ url_for('static', filename='Js/ganancias.js') }}"></script>
+<script src="{{ url_for('static', filename='Js/navbar.js') }}"></script>
+
+</html>

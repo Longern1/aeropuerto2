@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear vehiculos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vehiculo.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}" alt="Logo">
+        </div>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('admin_dashboard') }}" class="users-btn">Usuarios</a></li>
+            <li><a href="{{ url_for('create_user') }}" class="users-btn">Crear Usuarios</a></li>            
+            <li><a href="{{ url_for('create_vehicle') }}" class="vehicles-btn">Crear Vehículos</a></li>
+            <li><a href="{{ url_for('ver_vehiculos') }}" class="assignments-btn">Ver todos los vehículos</a></li>
+            <li><a href="{{ url_for('peritajes') }}" class="users-btn">Peritaje</a></li>
+            <li><a href="{{ url_for('reporte_transportadores') }}" class="reports-btn">Reportes de los transportadores</a></li>
+            <li><a href="{{ url_for('Ganancias') }}" class="reports-btn">Ganancias</a></li>
+            <li><a href="{{ url_for('logout') }}" class="logout-btn">Salir de la cuenta</a></li>
+        </ul>
+    </nav>
+    
+    <div id="vehicleForm">
+        <h3>Crear Nuevo Vehículo</h3>
+        <form action="/create_vehicle2" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="csv_file">Subir CSV:</label>
+                <input type="file" name="csv_file" id="csv_file" accept=".csv">
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Subir Archivo CSV</button>
+            </div>
+        </form>
+        
+        <h3>O Ingresar Datos Manualmente</h3>
+        <form action="/create_vehicle" method="POST">
+            <div class="form-group">
+                <label for="modelo">Modelo:</label>
+                <input type="text" name="modelo" id="modelo" required>
+            </div>
+            <div class="form-group">
+                <label for="placa">Matrícula:</label>
+                <input type="text" name="placa" id="placa" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha_recogida">Fecha de Recogida:</label>
+                <input type="date" name="fecha_recogida" id="fecha_recogida" required>
+            </div>
+            <div class="form-group">
+                <label for="hora_recogida">Hora de Recogida:</label>
+                <input type="time" name="hora_recogida" id="hora_recogida" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha_entrega">Fecha de Entrega:</label>
+                <input type="date" name="fecha_entrega" id="fecha_entrega" required>
+            </div>
+            <div class="form-group">
+                <label for="hora_entrega">Hora de Entrega:</label>
+                <input type="time" name="hora_entrega" id="hora_entrega" required>
+            </div>
+            <div class="form-group">
+                <label for="cliente_nombre">Nombre del Cliente:</label>
+                <input type="text" name="cliente_nombre" id="cliente_nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="cliente_telefono">Teléfono del Cliente:</label>
+                <input type="tel" name="cliente_telefono" id="cliente_telefono" required>
+            </div>
+            <div class="form-group">
+                <label for="precio">Precio:</label>
+                <input type="text" name="precio" id="precio" required>
+            </div>
+            <div class="form-group">
+                <label for="numero_reserva">Numero de reserva:</label>
+                <input type="text" name="numero_reserva" id="numero_reserva" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Crear Vehículo</button>
+            </div>
+        </form>
+    </div>
+    
+    <script src="{{ url_for('static', filename='Js/navbar.js') }}"></script>
+</body>
+</html>

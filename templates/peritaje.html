@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peritaje de Vehículos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/peritaje.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='IMG/IMG_5217.PNG') }}" alt="Logo">
+        </div>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('admin_dashboard') }}" class="users-btn">Usuarios</a></li>
+            <li><a href="{{ url_for('create_user') }}" class="users-btn">Crear Usuarios</a></li>            
+            <li><a href="{{ url_for('create_vehicle') }}" class="vehicles-btn">Crear Vehículos</a></li>
+            <li><a href="{{ url_for('ver_vehiculos') }}" class="assignments-btn">Ver todos los vehículos</a></li>
+            <li><a href="{{ url_for('peritajes') }}" class="users-btn">Peritaje</a></li>
+            <li><a href="{{ url_for('reporte_transportadores') }}" class="reports-btn">Reportes de los transportadores</a></li>
+            <li><a href="{{ url_for('Ganancias') }}" class="reports-btn">Ganancias</a></li>
+            <li><a href="{{ url_for('logout') }}" class="logout-btn">Salir de la cuenta</a></li>
+        </ul>
+    </nav>
+
+
+
+        <h1>Vehículos con peritaje:</h1>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Busqueda por matricula" onkeyup="filterVehicles()">
+        </div>
+
+
+        <section class="vehiculos-container" id="vehicleContainer">
+            {% if vehiculos_peritados %}
+                <div class="vehiculo-cards">
+                    {% for vehiculo in vehiculos_peritados %}
+                        <div class="vehiculo-card">  <!-- Cambié de "vehicle-card" a "vehiculo-card" en JS -->
+                            <h3>{{ vehiculo[1] }}</h3>
+                            <h4 class="data-placa">Matricula: {{ vehiculo[5] }}</h4>
+                            <p class="data-reserva"><strong>Numero de reserva:</strong> {{ vehiculo[0] }}</p>
+                            <p><strong>Estado:</strong> {{ vehiculo[2] }}</p>
+                            <p><strong>Ubicación:</strong> {{ vehiculo[3] }}</p>
+                            <a href="{{ url_for('detalles_peritaje', numero_reserva=vehiculo[0]) }}" class="details-btn">Ver Detalles</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No hay vehículos peritados.</p>
+            {% endif %}
+        </section>
+        
+
+    <script src="{{ url_for('static', filename='Js/navbar.js') }}"></script>
+    <script src="{{ url_for('static', filename='Js/peritaje.js') }}"></script>
+</body>
+</html>
