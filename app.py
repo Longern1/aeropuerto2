@@ -1102,4 +1102,4 @@ def logout():
 
 if __name__ == '__main__':
     app.secret_key = 'your_secret_key'  # Asegúrate de tener una clave secreta para la sesión
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port="8000", debug=False)
